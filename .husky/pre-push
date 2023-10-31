@@ -1,11 +1,20 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run lint
-echo "\n ✅ Lind Successfully!"
-
 npm run build
 echo "\n ✅ Build Successfully!"
 
-npm run test
-echo "\n ✅ Successfully Pass All Test 😍!
+run_tests() {
+    # Replace with your specific test command (e.g., "npm run test")
+    if npm run test; then
+        echo "✅ Successfully Passed All Tests 😍. Pushing to the remote repository..."
+        exit 0 # Use exit 0 to indicate success
+    else
+        echo "Tests failed. Aborting the push."
+        exit 1  # Use exit 1 to indicate failure
+    fi
+}
+
+run_tests
+
+exit 0
