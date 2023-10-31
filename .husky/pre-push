@@ -7,7 +7,7 @@ echo "\n ✅ Build Successfully!"
 run_tests() {
     # Replace with your specific test command (e.g., "npm run test")
     if npm run test; then
-        echo "\n \n ✅ Successfully Passed All Tests 😍. Pushing to the remote repository..."
+        echo "✅ Successfully Passed All Tests 😍. Pushing to the remote repository..."
         exit 0 # Use exit 0 to indicate success
     else
         echo "Tests failed. Aborting the push."
