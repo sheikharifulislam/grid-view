@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run lint
+echo "\n ✅ Lind Successfully!"
+
+npm run build
+echo "\n ✅ Build Successfully!"
+
+npm run test
+echo "\n ✅ Successfully Pass All Test 😍!
