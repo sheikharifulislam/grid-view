@@ -1,0 +1,113 @@
+import {
+    closestCenter,
+    DndContext,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
+import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
+import React, { useState } from "react";
+
+import { arrayMove } from "@dnd-kit/sortable";
+import { Flex } from "@mantine/core";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { IconPhoto } from "@tabler/icons-react";
+import "./images.css";
+import SortableImage from "./SortableImage";
+
+const Images = ({ images, setImages }) => {
+    const [activeId, setActiveId] = useState(null);
+    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
+    function handleDragStart(event) {
+        setActiveId(event.active.id);
+    }
+
+    function handleDragEnd(event) {
+        const { active, over } = event;
+
+        if (active.id !== over.id) {
+            setImages((images) => {
+                const oldIndex = images.findIndex(
+                    (image) => image.id === active.id
+                );
+                const newIndex = images.findIndex(
+                    (image) => image.id === over.id
+                );
+                console.log(oldIndex, newIndex);
+
+                return arrayMove(images, oldIndex, newIndex);
+            });
+        }
+
+        setActiveId(null);
+    }
+
+    function handleDragCancel() {
+        setActiveId(null);
+    }
+
+    return (
+        <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+            onDragCancel={handleDragCancel}
+        >
+            <SortableContext items={images} strategy={rectSortingStrategy}>
+                <div className="image-gallery">
+                    {images.map((image, index) => (
+                        <SortableImage
+                            key={image.id}
+                            image={image}
+                            index={index}
+                        />
+                    ))}
+                    <Dropzone
+                        onDrop={(files) => {
+                            const data = files.map((file) => {
+                                const url = URL.createObjectURL(file);
+                                return {
+                                    src: url,
+                                    id: Date.now() + Math.random() * 1000,
+                                };
+                            });
+                            setImages((prv) => [...prv, ...data]);
+                        }}
+                        onReject={(files) => {}}
+                        maxSize={3 * 1024 ** 2}
+                        accept={IMAGE_MIME_TYPE}
+                        height="100%"
+                        style={{
+                            border: "1px dotted gray",
+                            borderRadius: "4px",
+                        }}
+                    >
+                        <Flex
+                            justify="center"
+                            align="center"
+                            direction="column"
+                            style={{
+                                height: "100%",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    textAlign: "center",
+                                }}
+                            >
+                                <IconPhoto />
+                                <br />
+                                <span>Add Images</span>
+                            </div>
+                        </Flex>
+                    </Dropzone>
+                </div>
+            </SortableContext>
+        </DndContext>
+    );
+};
+
+export default Images;
