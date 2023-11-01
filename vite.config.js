@@ -5,7 +5,13 @@ import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        eslint({
+            include: ["./src}/**/*.{ts,tsx,js,jsx}"],
+            cache: true,
+        }),
+    ],
     esbuild: {
         loader: "jsx",
         include: /src\/.*\.jsx?$/,
@@ -37,9 +43,10 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            // "@": path.resolve(__dirname, "./src"),
+            "@": path.resolve(__dirname, "./src"),
             src: path.resolve(__dirname, "./src"),
             utils: path.resolve(__dirname, "./src/util/"),
+            components: path.resolve(__dirname, "./src/components/"),
         },
     },
     test: {
