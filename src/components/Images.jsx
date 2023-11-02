@@ -13,10 +13,12 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { Flex } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPhoto } from "@tabler/icons-react";
+import useImagesContext from "hooks/useImagesContext";
 import "./images.css";
 import SortableImage from "./SortableImage";
 
-const Images = ({ images, setImages }) => {
+const Images = () => {
+    const { images, setImages } = useImagesContext();
     const [activeId, setActiveId] = useState(null);
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
