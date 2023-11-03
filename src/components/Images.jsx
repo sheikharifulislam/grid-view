@@ -22,12 +22,17 @@ const Images = () => {
     const [activeId, setActiveId] = useState(null);
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
-    function handleDragStart(event) {
-        setActiveId(event.active.id);
+    function handleDragStart(e) {
+        setActiveId(e.active.id);
     }
 
-    function handleDragEnd(event) {
-        const { active, over } = event;
+    function handleDragCancel() {
+        setActiveId(null);
+    }
+
+    function handleDragEnd(e) {
+        const { active, over } = e;
+        if (!over) return;
 
         if (active.id !== over.id) {
             setImages((images) => {
@@ -37,7 +42,6 @@ const Images = () => {
                 const newIndex = images.findIndex(
                     (image) => image.id === over.id
                 );
-                console.log(oldIndex, newIndex);
 
                 return arrayMove(images, oldIndex, newIndex);
             });
@@ -46,9 +50,16 @@ const Images = () => {
         setActiveId(null);
     }
 
-    function handleDragCancel() {
-        setActiveId(null);
-    }
+    const handleFileDrop = (files) => {
+        const data = files.map((file) => {
+            const url = URL.createObjectURL(file);
+            return {
+                src: url,
+                id: Date.now() + Math.random() * 1000,
+            };
+        });
+        setImages((prv) => [...prv, ...data]);
+    };
 
     return (
         <DndContext
@@ -65,20 +76,11 @@ const Images = () => {
                             key={image.id}
                             image={image}
                             index={index}
+                            activeId={activeId}
                         />
                     ))}
                     <Dropzone
-                        onDrop={(files) => {
-                            const data = files.map((file) => {
-                                const url = URL.createObjectURL(file);
-                                return {
-                                    src: url,
-                                    id: Date.now() + Math.random() * 1000,
-                                };
-                            });
-                            setImages((prv) => [...prv, ...data]);
-                        }}
-                        onReject={(files) => {}}
+                        onDrop={handleFileDrop}
                         maxSize={3 * 1024 ** 2}
                         accept={IMAGE_MIME_TYPE}
                         height="100%"
