@@ -1,25 +1,30 @@
 import {
     closestCenter,
     DndContext,
+    DragOverlay,
     MouseSensor,
     TouchSensor,
     useSensor,
     useSensors,
 } from "@dnd-kit/core";
-import { rectSortingStrategy, SortableContext } from "@dnd-kit/sortable";
-import React, { useState } from "react";
-
-import { arrayMove } from "@dnd-kit/sortable";
+import {
+    arrayMove,
+    rectSortingStrategy,
+    SortableContext,
+} from "@dnd-kit/sortable";
 import { Flex } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPhoto } from "@tabler/icons-react";
+import React, { useState } from "react";
+
+/***************************Local Imports **************/
 import useImagesContext from "hooks/useImagesContext";
-import "./images.css";
 import SortableImage from "./SortableImage";
 
 const Images = () => {
     const { images, setImages } = useImagesContext();
     const [activeId, setActiveId] = useState(null);
+    const [overId, setOverId] = useState(null);
     const sensors = useSensors(
         useSensor(MouseSensor, {
             activationConstraint: {
@@ -33,16 +38,17 @@ const Images = () => {
         })
     );
 
-    function handleDragStart(e) {
-        setActiveId(e.active.id);
+    function handleDragStart(event) {
+        setActiveId(event.active.id);
     }
 
     function handleDragCancel() {
         setActiveId(null);
     }
 
-    function handleDragEnd(e) {
-        const { active, over } = e;
+    function handleDragEnd(event) {
+        const { active, over } = event;
+
         if (!over) return;
 
         if (active.id !== over.id) {
@@ -61,6 +67,15 @@ const Images = () => {
         setActiveId(null);
     }
 
+    function handleDragMove(event) {
+        const { active, over } = event;
+        console.log("from moveEvent", {
+            active: active.id,
+            over: over.id,
+        });
+        setOverId(over.id);
+    }
+
     const handleFileDrop = (files) => {
         const data = files.map((file) => {
             const url = URL.createObjectURL(file);
@@ -74,11 +89,13 @@ const Images = () => {
 
     return (
         <DndContext
+            autoScroll={true}
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDragCancel={handleDragCancel}
+            onDragMove={handleDragMove}
         >
             <SortableContext items={images} strategy={rectSortingStrategy}>
                 <div className="image-gallery">
@@ -88,6 +105,7 @@ const Images = () => {
                             image={image}
                             index={index}
                             activeId={activeId}
+                            overId={overId}
                         />
                     ))}
                     <Dropzone
@@ -120,6 +138,26 @@ const Images = () => {
                         </Flex>
                     </Dropzone>
                 </div>
+                <DragOverlay adjustScale={true}>
+                    {activeId ? (
+                        <div
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                border: "1px solid #f5f5f5",
+                                background: "#fff",
+                            }}
+                        >
+                            <img
+                                src={
+                                    images.find((img) => img.id === activeId)
+                                        .src
+                                }
+                                style={{ width: "100%", height: "100%" }}
+                            />
+                        </div>
+                    ) : null}
+                </DragOverlay>
             </SortableContext>
         </DndContext>
     );

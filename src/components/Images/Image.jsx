@@ -1,10 +1,11 @@
 import { Checkbox } from "@mantine/core";
-import useImagesContext from "hooks/useImagesContext";
 import React, { forwardRef, useState } from "react";
-import "./image.css";
+
+/***************************Local Imports **************/
+import useImagesContext from "hooks/useImagesContext";
 
 const Image = forwardRef(
-    ({ image, index, faded, style, activeId, ...props }, ref) => {
+    ({ image, index, faded, style, activeId, overId, ...props }, ref) => {
         const { selectedImages, setSelectedImages } = useImagesContext();
 
         const [hover, setHover] = useState(false);
@@ -14,9 +15,12 @@ const Image = forwardRef(
         const ImageStyles = {
             opacity: faded ? "0.2" : "1",
             transformOrigin: "0 0",
-            gridRowStart: index === 0 ? "span 2" : null,
-            gridColumnStart: index === 0 ? "span 2" : null,
+            // gridRowStart: index === 0 ? "span 2" : null,
+            // gridColumnStart: index === 0 ? "span 2" : null,
             cursor: activeId ? "grabbing" : "pointer",
+            // boxShadow: faded ? "34px 38px 239px 44px rgba(0,0,0,0.13)" : null,
+            // zIndex: 2000,
+            // zIndex: faded ? 2000 : 100,
             ...style,
         };
 
@@ -29,14 +33,6 @@ const Image = forwardRef(
             }
             setSelectedImages(SelectedImagesSet);
         };
-
-        if (activeId) {
-            return (
-                <div className="image" ref={ref} {...props} style={ImageStyles}>
-                    <img src={image.src} className="image" />
-                </div>
-            );
-        }
 
         return (
             <div
@@ -55,7 +51,6 @@ const Image = forwardRef(
                         ></div>
                     )}
                 </div>
-
                 {(hover || selected) && (
                     <div className="checkbox">
                         <Checkbox

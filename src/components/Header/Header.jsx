@@ -1,6 +1,8 @@
 import { Button, Checkbox, Flex } from "@mantine/core";
-import useImagesContext from "hooks/useImagesContext";
 import React from "react";
+
+/***************************Local Imports **************/
+import useImagesContext from "hooks/useImagesContext";
 
 const Header = () => {
     const { selectedImages, setSelectedImages, images, setImages } =
@@ -38,6 +40,7 @@ const Header = () => {
             align="center"
             style={{
                 padding: "10px 15px",
+                borderBottom: "1px solid #eee",
             }}
         >
             <Checkbox
