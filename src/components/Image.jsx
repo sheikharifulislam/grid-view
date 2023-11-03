@@ -46,7 +46,7 @@ const Image = forwardRef(
                 onMouseLeave={() => setHover(false)}
             >
                 <div ref={ref} {...props} className="img-wrapper">
-                    <img src={image.src} className="image" />
+                    <img src={image.src} />
                     {(hover || selected) && (
                         <div
                             className={` overlay ${
