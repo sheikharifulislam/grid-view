@@ -20,7 +20,18 @@ import SortableImage from "./SortableImage";
 const Images = () => {
     const { images, setImages } = useImagesContext();
     const [activeId, setActiveId] = useState(null);
-    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+    const sensors = useSensors(
+        useSensor(MouseSensor, {
+            activationConstraint: {
+                distance: 10,
+            },
+        }),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                distance: 10,
+            },
+        })
+    );
 
     function handleDragStart(e) {
         setActiveId(e.active.id);
