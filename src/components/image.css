@@ -1,5 +1,5 @@
 .image {
-    border: 1px solid #eeee;
+    border: 1px solid #eee;
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -10,6 +10,11 @@
 }
 
 .img-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.img-wrapper img {
     width: 100%;
     height: 100%;
 }
