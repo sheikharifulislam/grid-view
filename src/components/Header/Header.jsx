@@ -1,15 +1,17 @@
 import { Button, Checkbox, Flex } from "@mantine/core";
-import React from "react";
+import React, { useState } from "react";
 
 /***************************Local Imports **************/
 import useImagesContext from "hooks/useImagesContext";
 
 const Header = () => {
+    const [selected, setSelected] = useState(false);
     const { selectedImages, setSelectedImages, images, setImages } =
         useImagesContext();
 
     const handleSelectAllImages = ({ target }) => {
         const selectedImagesSet = new Set(selectedImages);
+        setSelected(target.checked);
         if (target.checked) {
             images.forEach((image) => {
                 selectedImagesSet.add(image.id);
@@ -46,7 +48,9 @@ const Header = () => {
             <Checkbox
                 label={`${new Set(selectedImages).size} File Selected`}
                 onChange={(e) => handleSelectAllImages(e)}
-                {...(selectedImages.size === 0 ? { value: false } : {})}
+                {...(selectedImages.size === 0
+                    ? { checked: false }
+                    : { checked: selected })}
             />
             <Button
                 variant="filled"

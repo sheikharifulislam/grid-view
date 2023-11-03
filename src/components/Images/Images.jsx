@@ -24,7 +24,6 @@ import SortableImage from "./SortableImage";
 const Images = () => {
     const { images, setImages } = useImagesContext();
     const [activeId, setActiveId] = useState(null);
-    const [overId, setOverId] = useState(null);
     const sensors = useSensors(
         useSensor(MouseSensor, {
             activationConstraint: {
@@ -67,15 +66,6 @@ const Images = () => {
         setActiveId(null);
     }
 
-    function handleDragMove(event) {
-        const { active, over } = event;
-        console.log("from moveEvent", {
-            active: active.id,
-            over: over.id,
-        });
-        setOverId(over.id);
-    }
-
     const handleFileDrop = (files) => {
         const data = files.map((file) => {
             const url = URL.createObjectURL(file);
@@ -95,7 +85,6 @@ const Images = () => {
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             onDragCancel={handleDragCancel}
-            onDragMove={handleDragMove}
         >
             <SortableContext items={images} strategy={rectSortingStrategy}>
                 <div className="image-gallery">
@@ -104,8 +93,6 @@ const Images = () => {
                             key={image.id}
                             image={image}
                             index={index}
-                            activeId={activeId}
-                            overId={overId}
                         />
                     ))}
                     <Dropzone
@@ -140,20 +127,12 @@ const Images = () => {
                 </div>
                 <DragOverlay adjustScale={true}>
                     {activeId ? (
-                        <div
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                border: "1px solid #f5f5f5",
-                                background: "#fff",
-                            }}
-                        >
+                        <div className="drag-overlay-inner">
                             <img
                                 src={
                                     images.find((img) => img.id === activeId)
                                         .src
                                 }
-                                style={{ width: "100%", height: "100%" }}
                             />
                         </div>
                     ) : null}
