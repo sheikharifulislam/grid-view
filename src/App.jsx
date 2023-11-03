@@ -1,11 +1,27 @@
-import { Container, MantineProvider } from "@mantine/core";
+import { Container, MantineProvider, createTheme } from "@mantine/core";
+import Header from "components/Header";
+import Images from "components/Images";
+import ImagesProvider from "context/ImagesProvider";
+
+const theme = createTheme({
+    defaultRadius: "sm",
+});
 
 function App() {
     return (
-        <MantineProvider>
-            <Container fluid>
-                <h1>Ariful</h1>
-            </Container>
+        <MantineProvider theme={theme}>
+            <ImagesProvider>
+                <Container
+                    size="lg"
+                    style={{
+                        marginTop: "40px",
+                        boxShadow: "34px 38px 239px 44px rgba(0,0,0,0.13)",
+                    }}
+                >
+                    <Header />
+                    <Images />
+                </Container>
+            </ImagesProvider>
         </MantineProvider>
     );
 }

@@ -20,6 +20,7 @@ module.exports = {
     },
     ignorePatterns: ["dist", ".eslintrc.cjs"],
     plugins: ["react-refresh"],
+    extends: ["airbnb", "prettier"],
     settings: {
         "import/resolver": {
             "eslint-import-resolver-custom-alias": {
