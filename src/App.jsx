@@ -1,7 +1,7 @@
 import { Container, MantineProvider, createTheme } from "@mantine/core";
 import Header from "components/Header";
 import Images from "components/Images";
-import ImagesProvider from "context/ImagesProvider";
+import ImagesProvider from "contexts/ImagesProvider";
 
 const theme = createTheme({
     defaultRadius: "sm",
