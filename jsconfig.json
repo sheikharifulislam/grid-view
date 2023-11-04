@@ -1,0 +1,16 @@
+{
+    "exclude": ["node_modules"],
+    "compilerOptions": {
+        "baseUrl": "./src/",
+        "target": "ES6",
+        "module": "CommonJS",
+        "paths": {
+            "@/*": ["./src/*"],
+            "components": ["./src/components"],
+            "contexts": ["./src/contexts"],
+            "hooks": ["./src/hooks"],
+            "utils": ["src/utils"],
+            "data": ["./src/data"]
+        }
+    }
+}

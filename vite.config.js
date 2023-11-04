@@ -46,17 +46,18 @@ export default defineConfig({
         alias: {
             "@": path.resolve(__dirname, "./src"),
             src: path.resolve(__dirname, "./src"),
-            utils: path.resolve(__dirname, "./src/util/"),
+            utils: path.resolve(__dirname, "./src/utils/"),
             components: path.resolve(__dirname, "./src/components/"),
             data: path.resolve(__dirname, "./src/data/"),
             hooks: path.resolve(__dirname, "./src/hooks/"),
-            context: path.resolve(__dirname, "./src/context/"),
+            contexts: path.resolve(__dirname, "./src/contexts/"),
         },
     },
     test: {
         globals: true,
         environment: "jsdom",
-        setupFiles: "./src/util/test-utils.js",
+        setupFiles: "./src/utils/test-utils.js",
+        reporters: ["default", "html"],
         coverage: {
             enabled: true,
         },

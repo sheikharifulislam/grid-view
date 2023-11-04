@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 /***************************Local Imports **************/
-import { ImagesContext } from "context/ImagesProvider";
+import { ImagesContext } from "contexts/ImagesProvider";
 
 const useImagesContext = () => {
     const imagesCtxValues = useContext(ImagesContext);
