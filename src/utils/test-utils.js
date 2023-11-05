@@ -1,6 +1,12 @@
 import { Container, MantineProvider } from "@mantine/core";
 import "@testing-library/jest-dom/vitest";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import ImagesProvider from "contexts/ImagesProvider";
+import { vi } from "vitest";
+
+const { getComputedStyle } = window;
+window.getComputedStyle = (elt) => getComputedStyle(elt);
 
 Object.defineProperty(window, "matchMedia", {
     writable: true,
@@ -8,18 +14,28 @@ Object.defineProperty(window, "matchMedia", {
         matches: false,
         media: query,
         onchange: null,
-        addListener: vi.fn(), // Deprecated
-        removeListener: vi.fn(), // Deprecated
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
         addEventListener: vi.fn(),
         removeEventListener: vi.fn(),
         dispatchEvent: vi.fn(),
     })),
 });
 
+class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+}
+
+window.ResizeObserver = ResizeObserver;
+
 const AllTheProviders = ({ children }) => {
     return (
         <MantineProvider>
-            <Container fluid>{children}</Container>
+            <ImagesProvider>
+                <Container fluid>{children}</Container>
+            </ImagesProvider>
         </MantineProvider>
     );
 };
@@ -28,4 +44,4 @@ const customRender = (ui, options) =>
     render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from "@testing-library/react";
-export { customRender as render };
+export { customRender as render, userEvent };
