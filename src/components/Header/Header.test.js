@@ -40,25 +40,49 @@ describe("Header", () => {
         const input = screen.getByRole("checkbox");
         expect(input).not.toBeChecked();
     });
+    it("should checkBox will disabled when the image list is empty", () => {
+        useContext.mockReturnValue({
+            ...initialCtx,
+            // will render an empty image list on the UI
+            images: [],
+        });
+        render(<Header />);
+        const input = screen.getByRole("checkbox");
+        expect(input).toBeDisabled();
+    });
     it("should disabled deleteBtn initially", () => {
         render(<Header />);
         const deleteBtn = screen.getByRole("button");
         expect(deleteBtn).toBeDisabled();
     });
-    it("should called setSelectedImages when checkbox is checked", async () => {
+    it("should the delete Button be enabled when selected greater than equal 1 image for delete", () => {
+        useContext.mockReturnValue({
+            ...initialCtx,
+            // selected last image for delete
+            selectedImages: new Set([5]),
+        });
+        render(<Header />);
+        const deleteBtn = screen.getByRole("button");
+        expect(deleteBtn).not.toBeDisabled();
+    });
+    it("should selected all images when checkbox is checked", async () => {
         render(<Header />);
         const input = screen.getByRole("checkbox");
         fireEvent.click(input);
-        expect(mockSetSelectedImages).toHaveBeenCalled();
+        expect(mockSetSelectedImages).toHaveBeenCalledWith(
+            new Set([1, 2, 3, 4, 5])
+        );
     });
-    it("should called setImages when click on the button", async () => {
+    it("should deleted images when click on the button", async () => {
         useContext.mockReturnValue({
             ...initialCtx,
+            // selected first 4 images for delete
             selectedImages: new Set([1, 2, 3, 4]),
         });
         render(<Header />);
         const deleteBtn = screen.getByRole("button");
         await userEvent.click(deleteBtn);
-        expect(mockSetImages).toHaveBeenCalled();
+        expect(mockSetImages).toHaveBeenCalledWith([{ id: 5, src: "dummy" }]);
+        expect(mockSetSelectedImages).toHaveBeenCalledWith(new Set());
     });
 });
