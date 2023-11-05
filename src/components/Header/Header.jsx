@@ -1,5 +1,5 @@
 import { Button, Checkbox, Flex } from "@mantine/core";
-import React, { useState } from "react";
+import { useState } from "react";
 
 /***************************Local Imports **************/
 import useImagesContext from "hooks/useImagesContext";
@@ -51,6 +51,7 @@ const Header = () => {
                 {...(selectedImages.size === 0
                     ? { checked: false }
                     : { checked: selected })}
+                disabled={!images.length}
             />
             <Button
                 variant="filled"
