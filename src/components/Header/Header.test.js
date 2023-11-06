@@ -73,6 +73,19 @@ describe("Header", () => {
             new Set([1, 2, 3, 4, 5])
         );
     });
+    it("should unselected all images when checked checkbox is unchecked", () => {
+        const { rerender } = render(<Header />);
+        const input = screen.getByRole("checkbox");
+        fireEvent.click(input);
+        useContext.mockReturnValue({
+            ...initialCtx,
+            // selected all images
+            selectedImages: new Set([1, 2, 3, 4, 5]),
+        });
+        rerender(<Header />);
+        fireEvent.click(input);
+        expect(mockSetSelectedImages).toHaveBeenCalledWith(new Set());
+    });
     it("should deleted images when click on the button", async () => {
         useContext.mockReturnValue({
             ...initialCtx,
