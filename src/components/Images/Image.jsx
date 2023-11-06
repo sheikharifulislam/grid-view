@@ -1,5 +1,5 @@
 import { Checkbox } from "@mantine/core";
-import React, { forwardRef, useState } from "react";
+import { forwardRef, useState } from "react";
 
 /***************************Local Imports **************/
 import useImagesContext from "hooks/useImagesContext";
@@ -25,11 +25,13 @@ const Image = forwardRef(({ image, index, style, ...props }, ref) => {
             style={style}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
+            data-testid="image"
         >
             <div ref={ref} {...props} className="img-wrapper">
                 <img src={image.src} />
                 {(hover || selected) && (
                     <div
+                        data-testid="overlay"
                         className={` overlay ${
                             selected ? "overlay-select" : "overlay-default"
                         }`}
