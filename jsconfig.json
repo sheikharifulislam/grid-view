@@ -4,13 +4,15 @@
         "baseUrl": "./src/",
         "target": "ES6",
         "module": "CommonJS",
+        "jsx": "react",
         "paths": {
             "@/*": ["./src/*"],
-            "components": ["./src/components"],
-            "contexts": ["./src/contexts"],
-            "hooks": ["./src/hooks"],
-            "utils": ["src/utils"],
-            "data": ["./src/data"]
+            "components/*": ["./src/components/*"],
+            "contexts/*": ["./src/contexts/*"],
+            "hooks/*": ["./src/hooks/*"],
+            "utils/*": ["src/utils/*"],
+            "data/*": ["./src/data/*"]
         }
-    }
+    },
+    "include": ["src/**/*"]
 }
