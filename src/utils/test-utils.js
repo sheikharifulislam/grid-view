@@ -7,6 +7,7 @@ import { vi } from "vitest";
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
+window.URL.createObjectURL = vi.fn(() => "https://local-url");
 
 Object.defineProperty(window, "matchMedia", {
     writable: true,

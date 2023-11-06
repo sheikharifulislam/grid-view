@@ -15,7 +15,7 @@ import {
 import { Flex } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPhoto } from "@tabler/icons-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 /***************************Local Imports **************/
 import useImagesContext from "hooks/useImagesContext";
@@ -74,6 +74,7 @@ const Images = () => {
                 id: Date.now() + Math.random() * 1000,
             };
         });
+
         setImages((prv) => [...prv, ...data]);
     };
 
