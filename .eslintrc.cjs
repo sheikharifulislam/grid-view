@@ -13,14 +13,14 @@ module.exports = {
         "plugin:react-hooks/recommended",
         "plugin:import/recommended",
         "prettier",
+        "airbnb",
     ],
     parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
     },
     ignorePatterns: ["dist", ".eslintrc.cjs"],
-    plugins: ["react-refresh"],
-    extends: ["airbnb", "prettier"],
+    plugins: ["react-refresh", "react-hooks"],
     settings: {
         "import/resolver": {
             "eslint-import-resolver-custom-alias": {
@@ -28,7 +28,10 @@ module.exports = {
                     "@": "./src/",
                     src: "./src/",
                     components: "./src/components",
-                    util: "./src/util",
+                    utils: "./src/utils",
+                    data: "./src/data",
+                    hooks: "./src/hooks",
+                    contexts: "./src/contexts",
                 },
                 extensions: [".js", ".jsx"],
             },
@@ -36,6 +39,8 @@ module.exports = {
         react: { version: "18.2" },
     },
     rules: {
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
         "no-unused-vars": "off",
         "react/prop-types": "off",
         "no-prototype-builtins": "off",
